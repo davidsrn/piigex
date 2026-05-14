@@ -33,8 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `us_dea`: DEA registration number. Hand-rolled checksum (last digit
     of `d1+d3+d5 + 2*(d2+d4+d6)` equals d7).
   - `us_mbi`: Medicare Beneficiary Identifier. Hand-rolled
-    position-and-alphabet shape validator (no checksum exists).
-    Restricted alphabet excludes S, L, O, I, B, Z per CMS spec.
+    position-and-alphabet shape validator (no checksum). Restricted
+    alphabet excludes S, L, O, I, B, Z per CMS spec.
 - Coverage generator (`scripts/gen_coverage.py`) recognizes `us` as
   United States.
 
