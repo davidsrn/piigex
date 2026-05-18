@@ -10,29 +10,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **UK region** with four Tier-1 detectors, all default-on with `feasibility="high"`:
-  - `gb_nhs`: NHS Number. Backed by `stdnum.gb.nhs`. Weighted mod-11 checksum:
-    weights (10, 9, 8, 7, 6, 5, 4, 3, 2) applied to the first 9 digits; check
-    digit is `11 - (sum % 11)`, with 11 mapping to invalid and 10 mapping to 0.
-    The 10-digit pattern is shared with `gb_utr`, `bg_pnf`, and `us_npi`; on a
-    tie the alphabetical winner is `bg_pnf`. The value is still scrubbed
-    regardless of which label wins.
-  - `gb_nino`: National Insurance Number. Hand-rolled; `stdnum.gb.nino` is not
-    available. Validation is structural only, no checksum. Letter exclusions are
-    encoded in the regex character classes: the first letter excludes D, F, I,
-    Q, U, V; the second also excludes O. Reserved prefixes BG, GB, KN, NK, NT,
-    TN, and ZZ are rejected by the validator after the pattern matches. Accepts
-    compact (`AB123456A`) and spaced (`AB 12 34 56 A`) forms; `normalize` returns
-    the compact 9-character form.
-  - `gb_utr`: HMRC Unique Taxpayer Reference. Backed by `stdnum.gb.utr`. Mod-11
-    check digit at position 0 with weights (6, 7, 8, 9, 10, 5, 4, 3, 2) over
-    digits 1-9; the result maps via `'21987654321'[sum % 11]`. Shares the
-    10-digit pattern with `gb_nhs`, `bg_pnf`, and `us_npi`; alphabetical
-    tie-break applies.
-  - `gb_vat`: VAT Registration Number. Backed by `stdnum.gb.vat`. Four accepted
-    forms: standard `GB` + 9 digits with mod-97 checksum, branch `GB` + 12
-    digits, government department `GBGD000`-`GBGD499`, and health authority
-    `GBHA500`-`GBHA999`. The `GB` prefix is required in the pattern to prevent
-    the compact 9-digit form colliding with `fr_siren` and `us_rtn`.
+  - `gb_nhs`: NHS Number. Uses `stdnum.gb.nhs`. Weighted mod-11 checksum:
+    weights (10, 9, 8, 7, 6, 5, 4, 3, 2) over the first 9 digits; check digit
+    is `11 - (sum % 11)`, with 11 invalid and 10 mapping to 0. The 10-digit
+    pattern is shared with `gb_utr`, `bg_pnf`, and `us_npi`; on a tie the
+    alphabetical winner is `bg_pnf`, but the value is always scrubbed.
+  - `gb_nino`: National Insurance Number. Hand-rolled; `stdnum.gb.nino` does not
+    exist. No checksum; validation is structural. Letter exclusions are encoded
+    in the character classes: the first letter excludes D, F, I, Q, U, V; the
+    second also excludes O. Reserved prefixes BG, GB, KN, NK, NT, TN, and ZZ
+    are rejected by the validator after the pattern matches. Accepts compact
+    (`AB123456A`) and spaced (`AB 12 34 56 A`) forms; `normalize` returns the
+    compact 9-character form.
+  - `gb_utr`: HMRC Unique Taxpayer Reference. Uses `stdnum.gb.utr`. Mod-11 check
+    digit at position 0 with weights (6, 7, 8, 9, 10, 5, 4, 3, 2) over digits
+    1-9; the result maps via `'21987654321'[sum % 11]`. Shares the 10-digit
+    pattern with `gb_nhs`, `bg_pnf`, and `us_npi`; alphabetical tie-break
+    applies.
+  - `gb_vat`: VAT Registration Number. Uses `stdnum.gb.vat`. Four forms: standard
+    `GB` + 9 digits with mod-97 checksum, branch `GB` + 12 digits, government
+    department `GBGD000`-`GBGD499`, and health authority `GBHA500`-`GBHA999`.
+    The `GB` prefix is required in the pattern to prevent the 9-digit compact
+    form colliding with `fr_siren` and `us_rtn`.
 - `scripts/gen_coverage.py` now recognizes `gb` as United Kingdom.
 
 ## [0.2.0] - 2026-05-18
