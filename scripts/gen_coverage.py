@@ -17,7 +17,7 @@ REGION_NAMES = {
     "fi": "Finland", "fr": "France", "gr": "Greece", "hr": "Croatia",
     "hu": "Hungary", "ie": "Ireland", "it": "Italy", "lt": "Lithuania",
     "nl": "Netherlands", "pl": "Poland", "pt": "Portugal", "ro": "Romania",
-    "se": "Sweden", "si": "Slovenia", "sk": "Slovakia",
+    "se": "Sweden", "si": "Slovenia", "sk": "Slovakia", "us": "United States",
     "intl": "International",
 }
 

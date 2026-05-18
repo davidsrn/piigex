@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **US region** with nine Tier-1 detectors, all default-on with
+  `feasibility="high"`:
+  - `us_ssn`: Social Security Number. stdnum-backed. Rejects reserved
+    areas (000, 666, 9xx), group 00, serial 0000, and the known
+    promotional numbers. Accepts hyphenated and compact forms.
+  - `us_ein`: Employer Identification Number. stdnum-backed; enforces
+    the IRS prefix table. Hyphenated form only; the compact 9-digit
+    form would collide with `us_rtn` and `us_ssn`.
+  - `us_itin`: Individual Taxpayer Identification Number. stdnum-backed.
+    Requires the 9xx area and an IRS-published middle group (70-99
+    excluding 89 and 93).
+  - `us_atin`: Adoption Taxpayer Identification Number. Hand-rolled to
+    enforce the IRS-reserved middle group 93; `stdnum.us.atin` is
+    shape-only and would otherwise tag any 9-digit value failing
+    SSN/EIN/ITIN.
+  - `us_ptin`: Preparer Tax Identification Number. stdnum-backed.
+    Literal `P` + 8 digits.
+  - `us_rtn`: ABA Routing Transit Number. stdnum-backed; ABA weighted
+    checksum.
+  - `us_npi`: National Provider Identifier. Hand-rolled. Runs Luhn over
+    the ISO 7812 issuer prefix `80840` followed by the 9 leading digits.
+  - `us_dea`: DEA registration number. Hand-rolled checksum: last digit
+    of `d1+d3+d5 + 2*(d2+d4+d6)` equals d7.
+  - `us_mbi`: Medicare Beneficiary Identifier. Hand-rolled shape
+    validator. Digits and letters sit at fixed positions; the letter
+    alphabet drops S, L, O, I, B, and Z per CMS.
+- `scripts/gen_coverage.py` now recognizes `us` as United States.
+
 ## [0.1.0] - 2026-05-14
 
 Initial public release.

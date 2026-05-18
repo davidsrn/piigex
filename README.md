@@ -4,8 +4,9 @@ A small PII detection and redaction library for structured identifiers. It uses 
 plus checksum validation. There is no ML model, no NLP pipeline, and no large dependency tree.
 
 Use it to sanitize chatbot input before it hits an LLM, scrub logs, or redact customer
-support transcripts. The 7 major EU countries are covered, along with international
-identifiers like IBAN, BIC, credit cards, email, IP addresses, and MAC addresses.
+support transcripts. Coverage includes the 7 major EU countries, the United States, and
+international identifiers like IBAN, BIC, credit cards, email, IP addresses, and MAC
+addresses.
 
 ---
 
@@ -64,7 +65,7 @@ cat payload.json | piigex scan  --json    # match list with "path" field
 
 ## Coverage
 
-72 detectors across 27 regions. 58 Tier-1 identifiers are on by default. The other 14
+81 detectors across 28 regions. 67 Tier-1 identifiers are on by default. The other 14
 (phone numbers and low-risk shape-only IDs) are off, since they produce more false
 positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 
@@ -93,6 +94,7 @@ positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 | SK | `sk_rc` |
 | SI | `si_emso`, `si_maticna` |
 | SE | `se_personnummer`, `se_orgnr` |
+| US | `us_ssn`, `us_ein`, `us_itin`, `us_atin`, `us_ptin`, `us_rtn`, `us_npi`, `us_dea`, `us_mbi` |
 | intl | `intl_iban`, `intl_eu_vat`, `intl_bic`, `intl_credit_card`, `intl_email`, `intl_ipv4`, `intl_ipv6`, `intl_mac` |
 
 Countries with VAT coverage only (via `intl_eu_vat`): CY, LV, LU, MT.
@@ -104,8 +106,8 @@ Opt-in detectors (default disabled, `feasibility="medium"`):
 Enable them by name (`detectors=["es_passport", ...]`) or by region. They stay off by
 default because phone numbers and shape-only IDs are noisier.
 
-US support is planned for v2. The internals were written to be country-agnostic, so
-adding new regions does not require restructuring the core.
+The internals are country-agnostic, so adding a new region means dropping detector
+modules under `src/piigex/detectors/<iso2>/`. UK coverage is on the v0.3.0 roadmap.
 
 ---
 
@@ -115,9 +117,9 @@ Install sizes measured with `du -sh` against a clean venv (baseline pip/setuptoo
 excluded), Python 3.13. Presidio spaCy model (`en_core_web_lg`, downloaded separately)
 adds a further 560 MB.
 
-| Library | Approach | Net install size | EU structured IDs | Requires ML |
-|---------|----------|------------------|-------------------|-------------|
-| **piigex** | regex + checksum | **~6 MB** | 72 (58 default + 14 opt-in) | No |
+| Library | Approach | Net install size | Structured IDs | Requires ML |
+|---------|----------|------------------|----------------|-------------|
+| **piigex** | regex + checksum | **~6 MB** | 81 (67 default + 14 opt-in) | No |
 | commonregex | regex only | ~6 KB | None | No |
 | piiregex | regex only | ~4 KB | None | No |
 | scrubadub | regex + optional NLP | ~335 MB | Limited (IBAN only) | Optional |
@@ -211,5 +213,5 @@ or a spaCy-based NER pipeline. Those tools require ML models. piigex deliberatel
 
 ## Scope
 
-Structured identifiers only. No NER, no ML. EU country coverage in v1, US planned
-for v2. The only runtime dependency is `python-stdnum`.
+Structured identifiers only. No NER, no ML. EU and US country coverage; UK on the
+roadmap. The only runtime dependency is `python-stdnum`.
