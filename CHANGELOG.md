@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-18
+
 ### Added
 
 - **US region** with nine Tier-1 detectors, all default-on with
@@ -47,6 +49,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     The pre-2007 9-digit format is deliberately not matched because it
     overlaps with SSN/EIN/RTN compact forms.
 - `scripts/gen_coverage.py` now recognizes `us` as United States.
+
+### Fixed
+
+- `docs/coverage.md` and `README.md` no longer claim `min_feasibility="medium"`
+  enables opt-in detectors. `default_enabled=False` excludes them from the
+  default set regardless of feasibility floor; the only way to enable an opt-in
+  detector is by name (`Scrubber(detectors=[...])`).
 
 ## [0.1.0] - 2026-05-14
 
