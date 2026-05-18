@@ -14,7 +14,7 @@ from piigex.detectors import get_registry
 REGION_NAMES = {
     "at": "Austria", "be": "Belgium", "bg": "Bulgaria", "cz": "Czech Republic",
     "de": "Germany", "dk": "Denmark", "ee": "Estonia", "es": "Spain",
-    "fi": "Finland", "fr": "France", "gr": "Greece", "hr": "Croatia",
+    "fi": "Finland", "fr": "France", "gb": "United Kingdom", "gr": "Greece", "hr": "Croatia",
     "hu": "Hungary", "ie": "Ireland", "it": "Italy", "lt": "Lithuania",
     "nl": "Netherlands", "pl": "Poland", "pt": "Portugal", "ro": "Romania",
     "se": "Sweden", "si": "Slovenia", "sk": "Slovakia", "us": "United States",

@@ -1,6 +1,6 @@
 # Coverage
 
-piigex has 83 detectors across 25 regions. 67 of them are on by default. The other 16 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
+piigex has 87 detectors across 26 regions. 71 of them are on by default. The other 16 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
 
 Each detector pairs a pre-compiled regex with a checksum validator. Validators delegate to `python-stdnum` where possible and are hand-rolled otherwise. With `validate=True` (the default), only checksum-valid matches are redacted.
 
@@ -24,6 +24,7 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | Spain (`es`) | 9 | 6 | 3 |
 | Finland (`fi`) | 2 | 2 | 0 |
 | France (`fr`) | 7 | 5 | 2 |
+| United Kingdom (`gb`) | 4 | 4 | 0 |
 | Greece (`gr`) | 1 | 1 | 0 |
 | Croatia (`hr`) | 1 | 1 | 0 |
 | Hungary (`hu`) | 1 | 1 | 0 |
@@ -141,6 +142,15 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | `fr_siren` | `{{FR_SIREN}}` | high | on |
 | `fr_siret` | `{{FR_SIRET}}` | high | on |
 | `fr_tva` | `{{FR_TVA}}` | high | on |
+
+### United Kingdom (`gb`)
+
+| Detector name | Token | Feasibility | Default |
+|---|---|---|---|
+| `gb_nhs` | `{{GB_NHS}}` | high | on |
+| `gb_nino` | `{{GB_NINO}}` | high | on |
+| `gb_utr` | `{{GB_UTR}}` | high | on |
+| `gb_vat` | `{{GB_VAT}}` | high | on |
 
 ### Greece (`gr`)
 
