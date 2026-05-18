@@ -4,9 +4,9 @@ A small PII detection and redaction library for structured identifiers. It uses 
 plus checksum validation. There is no ML model, no NLP pipeline, and no large dependency tree.
 
 Use it to sanitize chatbot input before it hits an LLM, scrub logs, or redact customer
-support transcripts. Coverage includes the 7 major EU countries, the United States, and
-international identifiers like IBAN, BIC, credit cards, email, IP addresses, and MAC
-addresses.
+support transcripts. Coverage includes the 7 major EU countries, the United Kingdom, the
+United States, and international identifiers like IBAN, BIC, credit cards, email, IP
+addresses, and MAC addresses.
 
 ---
 
@@ -65,7 +65,7 @@ cat payload.json | piigex scan  --json    # match list with "path" field
 
 ## Coverage
 
-83 detectors across 28 regions. 67 Tier-1 identifiers are on by default. The other 16
+87 detectors across 29 regions. 71 Tier-1 identifiers are on by default. The other 16
 (phone numbers and low-risk shape-only IDs) are off, since they produce more false
 positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 
@@ -85,6 +85,7 @@ positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 | DK | `dk_cpr`, `dk_cvr` |
 | EE | `ee_ik` |
 | FI | `fi_hetu`, `fi_ytunnus` |
+| GB | `gb_nhs`, `gb_nino`, `gb_utr`, `gb_vat` |
 | GR | `gr_amka` |
 | HU | `hu_anum` |
 | IE | `ie_pps` |
@@ -109,7 +110,7 @@ stay off by default because phone numbers and shape-only IDs are noisier. The
 cannot enable a `default_enabled=False` detector on their own.
 
 The internals are country-agnostic, so adding a new region means dropping detector
-modules under `src/piigex/detectors/<iso2>/`. UK coverage is on the v0.3.0 roadmap.
+modules under `src/piigex/detectors/<iso2>/`.
 
 ---
 
@@ -121,7 +122,7 @@ adds a further 560 MB.
 
 | Library | Approach | Net install size | Structured IDs | Requires ML |
 |---------|----------|------------------|----------------|-------------|
-| **piigex** | regex + checksum | **~6 MB** | 83 (67 default + 16 opt-in) | No |
+| **piigex** | regex + checksum | **~6 MB** | 87 (71 default + 16 opt-in) | No |
 | commonregex | regex only | ~6 KB | None | No |
 | piiregex | regex only | ~4 KB | None | No |
 | scrubadub | regex + optional NLP | ~335 MB | Limited (IBAN only) | Optional |
@@ -215,5 +216,5 @@ or a spaCy-based NER pipeline. Those tools require ML models. piigex deliberatel
 
 ## Scope
 
-Structured identifiers only. No NER, no ML. EU and US country coverage; UK on the
-roadmap. The only runtime dependency is `python-stdnum`.
+Structured identifiers only. No NER, no ML. EU, UK, and US country coverage. The only
+runtime dependency is `python-stdnum`.
