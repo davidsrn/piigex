@@ -26,6 +26,18 @@ jobs:
       - run: pip install --upgrade build twine
       - run: python -m build
       - run: python -m twine check dist/*
+      - name: Verify wheel contents
+        run: |
+          python - <<'EOF'
+          import glob, sys, zipfile
+          whl = glob.glob("dist/*.whl")[0]
+          names = zipfile.ZipFile(whl).namelist()
+          missing = [f for f in ["LICENSE", "README.md", "py.typed"] if not any(f in n for n in names)]
+          if missing:
+              print("Missing from wheel:", missing)
+              sys.exit(1)
+          print("Wheel contents OK:", [n for n in names if any(f in n for f in ["LICENSE", "README", "py.typed"])])
+          EOF
       - uses: actions/upload-artifact@v4
         with:
           name: dist
@@ -45,3 +57,5 @@ jobs:
           name: dist
           path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          attestations: true

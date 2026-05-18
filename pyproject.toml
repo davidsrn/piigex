@@ -6,23 +6,25 @@ build-backend = "hatchling.build"
 name = "piigex"
 version = "0.2.0"
 description = "Lightweight PII detection and redaction for structured identifiers using regex and checksum validation"
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
 authors = [{ name = "David Ramírez", email = "davidsrn@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = ["python-stdnum>=1.20"]
-keywords = ["pii", "privacy", "redaction", "gdpr", "regex"]
+keywords = ["pii", "privacy", "redaction", "gdpr", "regex", "anonymization", "compliance", "scrubbing"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Topic :: Text Processing",
     "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Filters",
     "Typing :: Typed",
 ]
 

@@ -260,6 +260,18 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | `us_rtn` | `{{US_RTN}}` | high | on |
 | `us_ssn` | `{{US_SSN}}` | high | on |
 
+## Detector notes
+
+**`es_nie`**: NIE numbers appear on both the standalone NIE document and the TIE (Tarjeta de Identidad de Extranjero) card. The detector covers both because the number format and checksum are identical.
+
+**`intl_email`**: The pattern covers common real-world addresses (RFC 5321 practical subset). Quoted local parts, IP literals, and other RFC 5322 extensions are not matched.
+
+**`intl_mac`**: MAC addresses can identify network hardware and, under GDPR Article 4(1), constitute personal data when linkable to an individual (e.g. device logs, network traffic records).
+
+## Region notes
+
+**Austria (`at`)**: Austrian VAT ID (UID) and Firmenbuchnummer are not currently implemented; contributions welcome.
+
 ## Notes on opt-in detectors
 
 Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, Belgian payment references) are off by default. They either lack a strong checksum or share a shape with plenty of non-PII strings. Enable them by name:
