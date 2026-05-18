@@ -6,7 +6,7 @@ plus checksum validation. There is no ML model, no NLP pipeline, and no large de
 Use it to sanitize chatbot input before it hits an LLM, scrub logs, or redact customer
 support transcripts. Coverage spans 24 EU member states, the United Kingdom, the United States, and
 international identifiers including IBAN, BIC, credit cards, email, IP addresses, and
-MAC addresses — 26 regions in total.
+MAC addresses. That is 26 regions in total.
 
 ---
 
@@ -216,6 +216,5 @@ or a spaCy-based NER pipeline. Those tools require ML models. piigex deliberatel
 
 ## Scope
 
-Structured identifiers only. No NER, no ML. EU, UK, and US country coverage. Planned
-additions include Norway (NO), Switzerland (CH), Iceland (IS), and Liechtenstein (LI).
-The only runtime dependency is `python-stdnum`.
+Structured identifiers only. No NER, no ML. EU, UK, and US country coverage. The only
+runtime dependency is `python-stdnum`.
