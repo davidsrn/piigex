@@ -252,17 +252,15 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 
 ## Notes on opt-in detectors
 
-Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, Belgian payment references) are off by default. They either lack a strong checksum or share a shape with plenty of non-PII strings. Turn them on explicitly:
+Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, Belgian payment references) are off by default. They either lack a strong checksum or share a shape with plenty of non-PII strings. Enable them by name:
 
 ```python
 from piigex import Scrubber
 
-# By name:
-s = Scrubber(detectors=["es_phone", "fr_phone", "intl_phone_e164"])
-
-# Or by raising the feasibility floor (also enables them in every listed region):
-s = Scrubber(min_feasibility="medium", regions=["es", "fr", "intl"])
+s = Scrubber(detectors=["us_phone", "us_passport", "intl_phone_e164"])
 ```
+
+`min_feasibility` and `regions` only narrow the default set; they do not promote a `default_enabled=False` detector into the active set. Always pass opt-in detectors by name.
 
 ## Regenerating this page
 

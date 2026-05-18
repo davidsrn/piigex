@@ -103,8 +103,10 @@ Opt-in detectors (default disabled, `feasibility="medium"`):
 - Phone: `intl_phone_e164`, `es_phone`, `it_phone`, `fr_phone`, `de_phone`, `pt_phone`, `nl_phone`, `be_phone`, `us_phone`
 - Shape-only IDs: `es_passport`, `es_matricula`, `fr_cni`, `pt_passport`, `nl_passport`, `be_ogm_vcs_delimited`, `us_passport`
 
-Enable them by name (`detectors=["es_passport", ...]`) or by region. They stay off by
-default because phone numbers and shape-only IDs are noisier.
+Enable them by name: `Scrubber(detectors=["us_phone", "us_passport", ...])`. They
+stay off by default because phone numbers and shape-only IDs are noisier. The
+`regions` and `min_feasibility` parameters only narrow the default set, so they
+cannot enable a `default_enabled=False` detector on their own.
 
 The internals are country-agnostic, so adding a new region means dropping detector
 modules under `src/piigex/detectors/<iso2>/`. UK coverage is on the v0.3.0 roadmap.
