@@ -81,14 +81,14 @@ def test_utr_not_inside_word(utr_scrubber: Scrubber) -> None:
 # ---------------------------------------------------------------------------
 
 VALID_VATS = [
-    "GB980780684",       # standard 9-digit
-    "GB980780684001",    # branch 12-digit
-    "GBGD001",           # government department (GD000-GD499)
-    "GBHA500",           # health authority (HA500-HA999)
+    "GB980780684",  # standard 9-digit
+    "GB980780684001",  # branch 12-digit
+    "GBGD001",  # government department (GD000-GD499)
+    "GBHA500",  # health authority (HA500-HA999)
 ]
 INVALID_VATS = [
-    "GB802311781",   # bad checksum (stdnum docs example)
-    "GB980780683",   # wrong last digit
+    "GB802311781",  # bad checksum (stdnum docs example)
+    "GB980780683",  # wrong last digit
 ]
 
 
