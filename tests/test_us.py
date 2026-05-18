@@ -256,7 +256,15 @@ def test_npi_wrong_length(npi_scrubber: Scrubber) -> None:
 # US_DEA
 # ---------------------------------------------------------------------------
 
-VALID_DEAS = ["AB1234563"]
+# Vectors computed from the DEA checksum algorithm:
+# last digit of (d1+d3+d5 + 2*(d2+d4+d6)) where d1-d6 are the first six
+# digits after the two-letter prefix. See https://en.wikipedia.org/wiki/DEA_number
+VALID_DEAS = [
+    "AB1234563",  # existing canonical vector
+    "BT1234563",  # same digit sequence, different letter prefix
+    "FP5000005",  # odd-sum-dominant case: (5+0+0 + 2*0) % 10 = 5
+    "AA1111119",  # equal odd/even sums: (3 + 2*3) % 10 = 9
+]
 
 
 @pytest.fixture()
