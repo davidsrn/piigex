@@ -1,15 +1,3 @@
-"""
-Conflict-resolution policy tests.
-
-The engine resolves multi-detector overlaps as follows:
-  1. With validate=True (default), filter candidates to those that pass validation.
-  2. Pick the candidate with the highest end offset (longest match).
-  3. On a tie, the first candidate in sorted-registry order wins, which is
-     alphabetically first by detector name.
-
-These tests lock in that behaviour so regressions are caught immediately.
-"""
-
 from __future__ import annotations
 
 from piigex import Scrubber
@@ -30,8 +18,8 @@ def test_alphabetical_tiebreak_rtn_siren() -> None:
 
 
 def test_alphabetical_tiebreak_validate_false() -> None:
-    # With validate=False the same alphabetical tie-break applies; the mode
-    # only affects whether clean() replaces matches, not which detector wins.
+    # With validate=False, invalid candidates are no longer filtered before
+    # tie-break; both candidates here are valid, so fr_siren still wins.
     s = Scrubber(detectors=["us_rtn", "fr_siren"], validate=False)
     matches = s.scan("011000015")
     assert len(matches) == 1

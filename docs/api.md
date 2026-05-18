@@ -209,7 +209,7 @@ Token strings follow two conventions:
 | International detectors | Unprefixed mnemonic | `IBAN`, `EMAIL`, `MAC`, `BIC`, `CREDIT_CARD`, `EU_VAT`, `IPV4`, `IPV6` |
 
 The one exception is `INTL_PHONE_E164`, which carries an explicit `INTL_` prefix
-to avoid a `PHONE` collision with the six regional phone detectors
+to avoid a `PHONE` collision with the eight regional phone detectors
 (`BE_PHONE`, `DE_PHONE`, `ES_PHONE`, `FR_PHONE`, `IT_PHONE`, `PT_PHONE`,
 `NL_PHONE`, `US_PHONE`). All other international tokens are unambiguous without
 a prefix.
