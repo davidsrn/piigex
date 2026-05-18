@@ -1,6 +1,6 @@
 # Coverage
 
-piigex has 81 detectors across 25 regions. 67 of them are on by default. The other 14 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
+piigex has 83 detectors across 25 regions. 67 of them are on by default. The other 16 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
 
 Each detector pairs a pre-compiled regex with a checksum validator. Validators delegate to `python-stdnum` where possible and are hand-rolled otherwise. With `validate=True` (the default), only checksum-valid matches are redacted.
 
@@ -38,7 +38,7 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | Sweden (`se`) | 2 | 2 | 0 |
 | Slovenia (`si`) | 2 | 2 | 0 |
 | Slovakia (`sk`) | 1 | 1 | 0 |
-| United States (`us`) | 9 | 9 | 0 |
+| United States (`us`) | 11 | 9 | 2 |
 
 ## Detectors by region
 
@@ -244,23 +244,23 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | `us_itin` | `{{US_ITIN}}` | high | on |
 | `us_mbi` | `{{US_MBI}}` | high | on |
 | `us_npi` | `{{US_NPI}}` | high | on |
+| `us_passport` | `{{US_PASSPORT}}` | medium | off |
+| `us_phone` | `{{US_PHONE}}` | medium | off |
 | `us_ptin` | `{{US_PTIN}}` | high | on |
 | `us_rtn` | `{{US_RTN}}` | high | on |
 | `us_ssn` | `{{US_SSN}}` | high | on |
 
 ## Notes on opt-in detectors
 
-Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, Belgian payment references) are off by default. They either lack a strong checksum or share a shape with plenty of non-PII strings. Turn them on explicitly:
+Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, Belgian payment references) are off by default. They either lack a strong checksum or share a shape with plenty of non-PII strings. Enable them by name:
 
 ```python
 from piigex import Scrubber
 
-# By name:
-s = Scrubber(detectors=["es_phone", "fr_phone", "intl_phone_e164"])
-
-# Or by raising the feasibility floor (also enables them in every listed region):
-s = Scrubber(min_feasibility="medium", regions=["es", "fr", "intl"])
+s = Scrubber(detectors=["us_phone", "us_passport", "intl_phone_e164"])
 ```
+
+`min_feasibility` and `regions` only narrow the default set; they do not promote a `default_enabled=False` detector into the active set. Always pass opt-in detectors by name.
 
 ## Regenerating this page
 

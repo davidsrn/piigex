@@ -85,14 +85,14 @@ def main() -> None:
         "\n## Notes on opt-in detectors\n\n"
         "Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, "
         "Belgian payment references) are off by default. They either lack a strong checksum "
-        "or share a shape with plenty of non-PII strings. Turn them on explicitly:\n\n"
+        "or share a shape with plenty of non-PII strings. Enable them by name:\n\n"
         "```python\n"
         "from piigex import Scrubber\n\n"
-        "# By name:\n"
-        's = Scrubber(detectors=["es_phone", "fr_phone", "intl_phone_e164"])\n\n'
-        "# Or by raising the feasibility floor (also enables them in every listed region):\n"
-        's = Scrubber(min_feasibility="medium", regions=["es", "fr", "intl"])\n'
+        's = Scrubber(detectors=["us_phone", "us_passport", "intl_phone_e164"])\n'
         "```\n\n"
+        "`min_feasibility` and `regions` only narrow the default set; they do not "
+        "promote a `default_enabled=False` detector into the active set. Always pass "
+        "opt-in detectors by name.\n\n"
         "## Regenerating this page\n\n"
         "This file is generated from the live detector registry. After you add or modify "
         "a detector, regenerate it with:\n\n"
