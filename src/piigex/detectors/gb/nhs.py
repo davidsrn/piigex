@@ -9,7 +9,7 @@ from piigex.detectors.base import Detector
 
 
 class NhsDetector(Detector):
-    # stdnum.gb.nhs: weighted mod-11 checksum over 9 leading digits.
+    # stdnum.gb.nhs: weights (10..2) over first 9 digits; 10th digit is check.
     name = "gb_nhs"
     token = "GB_NHS"
     region = "gb"
