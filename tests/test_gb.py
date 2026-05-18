@@ -190,3 +190,32 @@ def test_nino_no_overlap_with_dea(nino_scrubber: Scrubber) -> None:
     # DEA numbers are 2 letters + 7 digits (end in a digit).
     # NINO ends in [A-D], so DEA-shaped strings must not match.
     assert nino_scrubber.scan("AB1234563") == []
+
+
+# ---------------------------------------------------------------------------
+# Cross-detector / integration
+# ---------------------------------------------------------------------------
+
+
+def test_gb_detectors_default_on() -> None:
+    s = Scrubber()
+    text = "NHS 9434765919, UTR 1955839661, VAT GB980780684, NINO AB123456A."
+    redacted = s.clean(text)
+    for raw in ("9434765919", "1955839661", "GB980780684", "AB123456A"):
+        assert raw not in redacted, f"{raw!r} leaked into redacted output"
+
+
+def test_gb_region_filter() -> None:
+    s = Scrubber(regions=["gb"])
+    matches = {m.name for m in s.scan("NHS 9434765919 UTR 1955839661") if m.valid}
+    assert "gb_nhs" in matches or "gb_utr" in matches
+
+
+def test_known_10digit_gb_collision() -> None:
+    # 10-digit values can match gb_nhs, gb_utr, bg_pnf, or us_npi depending
+    # on which checksums pass. The value must always be scrubbed; only the
+    # token label varies. This test documents the known behaviour.
+    s = Scrubber()
+    matches = {m.value: m.name for m in s.scan("9434765919") if m.valid}
+    assert "9434765919" in matches
+    assert matches["9434765919"] in {"gb_nhs", "gb_utr", "bg_pnf", "us_npi"}
