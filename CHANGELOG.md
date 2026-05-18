@@ -35,6 +35,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `us_mbi`: Medicare Beneficiary Identifier. Hand-rolled shape
     validator. Digits and letters sit at fixed positions; the letter
     alphabet drops S, L, O, I, B, and Z per CMS.
+- **US Tier-2** detectors, opt-in (`feasibility="medium"`,
+  `default_enabled=False`):
+  - `us_phone`: North American Numbering Plan. Accepts the canonical
+    `(NPA) NXX-XXXX` shape with optional `+1`/`1`/`001` country prefix
+    and the usual separators (space, dot, dash, parens). Validator
+    enforces 10 local digits, area code first digit in `[2-9]`, and
+    exchange first digit in `[2-9]`.
+  - `us_passport`: 1 letter + 8 digits. Shape-only (no checksum).
+    Leading letter `P` is excluded to avoid colliding with `us_ptin`.
+    The pre-2007 9-digit format is deliberately not matched because it
+    overlaps with SSN/EIN/RTN compact forms.
 - `scripts/gen_coverage.py` now recognizes `us` as United States.
 
 ## [0.1.0] - 2026-05-14

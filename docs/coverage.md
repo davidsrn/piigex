@@ -1,6 +1,6 @@
 # Coverage
 
-piigex has 81 detectors across 25 regions. 67 of them are on by default. The other 14 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
+piigex has 83 detectors across 25 regions. 67 of them are on by default. The other 16 are opt-in: phone numbers and shape-only identifiers, kept off because they produce more false positives.
 
 Each detector pairs a pre-compiled regex with a checksum validator. Validators delegate to `python-stdnum` where possible and are hand-rolled otherwise. With `validate=True` (the default), only checksum-valid matches are redacted.
 
@@ -38,7 +38,7 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | Sweden (`se`) | 2 | 2 | 0 |
 | Slovenia (`si`) | 2 | 2 | 0 |
 | Slovakia (`sk`) | 1 | 1 | 0 |
-| United States (`us`) | 9 | 9 | 0 |
+| United States (`us`) | 11 | 9 | 2 |
 
 ## Detectors by region
 
@@ -244,6 +244,8 @@ Each detector pairs a pre-compiled regex with a checksum validator. Validators d
 | `us_itin` | `{{US_ITIN}}` | high | on |
 | `us_mbi` | `{{US_MBI}}` | high | on |
 | `us_npi` | `{{US_NPI}}` | high | on |
+| `us_passport` | `{{US_PASSPORT}}` | medium | off |
+| `us_phone` | `{{US_PHONE}}` | medium | off |
 | `us_ptin` | `{{US_PTIN}}` | high | on |
 | `us_rtn` | `{{US_RTN}}` | high | on |
 | `us_ssn` | `{{US_SSN}}` | high | on |

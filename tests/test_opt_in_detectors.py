@@ -367,3 +367,66 @@ def test_be_ogm_different_values_different_tokens() -> None:
     result = scrubber.clean("+++010/8068/17183+++ and +++123/4567/89002+++")
     assert "{{BE_OGM_VCS_1}}" in result
     assert "{{BE_OGM_VCS_2}}" in result
+
+
+# ---------------------------------------------------------------------------
+# US_PASSPORT
+# ---------------------------------------------------------------------------
+
+# US passport books and cards since ~2007: 1 letter + 8 digits. Shape only.
+# `P` is excluded from the leading letter to avoid colliding with `us_ptin`.
+VALID_US_PASSPORTS = [
+    "A12345678",
+    "C00000000",
+    "Z99999999",
+    "E48765432",
+]
+INVALID_US_PASSPORTS = [
+    "P12345678",  # P is reserved for PTIN; should not match passport
+    "12345678",  # 8 chars, no leading letter
+    "123456789",  # 9 digits, no leading letter
+    "AB1234567",  # 2 letters: DEA shape, not passport
+    "A1234567",  # 7 digits, too short
+    "A123456789",  # 9 digits, too long
+]
+
+
+@pytest.fixture()
+def usp_s() -> Scrubber:
+    return Scrubber(detectors=["us_passport"])
+
+
+@pytest.mark.parametrize("v", VALID_US_PASSPORTS)
+def test_us_passport_valid(usp_s: Scrubber, v: str) -> None:
+    matches = usp_s.scan(v)
+    assert len(matches) == 1 and matches[0].valid
+
+
+@pytest.mark.parametrize("bad", INVALID_US_PASSPORTS)
+def test_us_passport_invalid(usp_s: Scrubber, bad: str) -> None:
+    assert usp_s.scan(bad) == []
+
+
+def test_us_passport_embedded(usp_s: Scrubber) -> None:
+    text = "Passport: A12345678, issued in Boston."
+    m = usp_s.scan(text)
+    assert len(m) == 1
+    assert text[m[0].start : m[0].end] == "A12345678"
+
+
+def test_us_passport_not_inside_word(usp_s: Scrubber) -> None:
+    assert usp_s.scan("refA12345678xyz") == []
+
+
+def test_us_passport_does_not_steal_ptin() -> None:
+    # When us_passport is enabled alongside us_ptin (default-on), a P-prefixed
+    # 8-digit number must still tag as us_ptin, not us_passport.
+    sc = Scrubber(detectors=["us_passport", "us_ptin"])
+    matches = sc.scan("P12345678")
+    assert len(matches) == 1 and matches[0].name == "us_ptin"
+
+
+def test_us_passport_stable_token() -> None:
+    scrubber = Scrubber(detectors=["us_passport"], stable_tokens=True)
+    result = scrubber.clean("A12345678 and A12345678")
+    assert result.count("{{US_PASSPORT_1}}") == 2

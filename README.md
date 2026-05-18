@@ -65,7 +65,7 @@ cat payload.json | piigex scan  --json    # match list with "path" field
 
 ## Coverage
 
-81 detectors across 28 regions. 67 Tier-1 identifiers are on by default. The other 14
+83 detectors across 28 regions. 67 Tier-1 identifiers are on by default. The other 16
 (phone numbers and low-risk shape-only IDs) are off, since they produce more false
 positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 
@@ -100,8 +100,8 @@ positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 Countries with VAT coverage only (via `intl_eu_vat`): CY, LV, LU, MT.
 
 Opt-in detectors (default disabled, `feasibility="medium"`):
-- Phone: `intl_phone_e164`, `es_phone`, `it_phone`, `fr_phone`, `de_phone`, `pt_phone`, `nl_phone`, `be_phone`
-- Shape-only IDs: `es_passport`, `es_matricula`, `fr_cni`, `pt_passport`, `nl_passport`, `be_ogm_vcs_delimited`
+- Phone: `intl_phone_e164`, `es_phone`, `it_phone`, `fr_phone`, `de_phone`, `pt_phone`, `nl_phone`, `be_phone`, `us_phone`
+- Shape-only IDs: `es_passport`, `es_matricula`, `fr_cni`, `pt_passport`, `nl_passport`, `be_ogm_vcs_delimited`, `us_passport`
 
 Enable them by name (`detectors=["es_passport", ...]`) or by region. They stay off by
 default because phone numbers and shape-only IDs are noisier.
@@ -119,7 +119,7 @@ adds a further 560 MB.
 
 | Library | Approach | Net install size | Structured IDs | Requires ML |
 |---------|----------|------------------|----------------|-------------|
-| **piigex** | regex + checksum | **~6 MB** | 81 (67 default + 14 opt-in) | No |
+| **piigex** | regex + checksum | **~6 MB** | 83 (67 default + 16 opt-in) | No |
 | commonregex | regex only | ~6 KB | None | No |
 | piiregex | regex only | ~4 KB | None | No |
 | scrubadub | regex + optional NLP | ~335 MB | Limited (IBAN only) | Optional |
