@@ -175,3 +175,45 @@ es_only = get_detectors(regions=["es"])
 
 `get_detectors` accepts the same `names`, `regions`, `min_feasibility`, and
 `exclude` arguments as `Scrubber.__init__`.
+
+## Conflict resolution
+
+When the scan engine finds candidates from multiple detectors at the same text
+position, it selects one match using two rules in order:
+
+1. **Longest match wins.** The candidate with the highest end offset is chosen.
+   This is the common case; most detector shapes do not overlap.
+
+2. **Alphabetical tie-break.** When two or more candidates end at the same
+   position, the one whose `name` sorts earliest alphabetically wins. Detectors
+   are registered in sorted directory order, so this tie-break is deterministic
+   and reproducible across runs.
+
+When `validate=True` (the default), invalid candidates are filtered out before
+either rule is applied. A valid shorter match therefore beats an invalid longer
+one.
+
+This policy means that on 9- and 10-digit Luhn-valid values, cross-region
+collisions can occur: the value is always redacted, but the token label reflects
+whichever detector comes first alphabetically. Known collisions are documented
+in [docs/coverage.md](coverage.md). Using `Scrubber(detectors=[...])` to enable
+only the detectors you need removes the ambiguity entirely.
+
+## Token naming
+
+Token strings follow two conventions:
+
+| Category | Convention | Examples |
+|---|---|---|
+| Regional detectors | `{CC}_{CODE}` — ISO 3166-1 alpha-2 country code, underscore, mnemonic in SCREAMING\_SNAKE\_CASE | `ES_DNI`, `US_SSN`, `GB_NINO`, `FR_SIREN` |
+| International detectors | Unprefixed mnemonic | `IBAN`, `EMAIL`, `MAC`, `BIC`, `CREDIT_CARD`, `EU_VAT`, `IPV4`, `IPV6` |
+
+The one exception is `INTL_PHONE_E164`, which carries an explicit `INTL_` prefix
+to avoid a `PHONE` collision with the six regional phone detectors
+(`BE_PHONE`, `DE_PHONE`, `ES_PHONE`, `FR_PHONE`, `IT_PHONE`, `PT_PHONE`,
+`NL_PHONE`, `US_PHONE`). All other international tokens are unambiguous without
+a prefix.
+
+The raw token string (e.g. `US_SSN`) is stored in `Match.token`. The formatted
+placeholder (e.g. `{{US_SSN}}`) is produced by the `token_format` at render
+time and can be changed without touching detector code.

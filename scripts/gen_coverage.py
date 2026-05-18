@@ -21,6 +21,30 @@ REGION_NAMES = {
     "intl": "International",
 }
 
+DETECTOR_NOTES: dict[str, str] = {
+    "es_nie": (
+        "NIE numbers appear on both the standalone NIE document and the TIE "
+        "(Tarjeta de Identidad de Extranjero) card. The detector covers both because "
+        "the number format and checksum are identical."
+    ),
+    "intl_email": (
+        "The pattern covers common real-world addresses (RFC 5321 practical subset). "
+        "Quoted local parts, IP literals, and other RFC 5322 extensions are not matched."
+    ),
+    "intl_mac": (
+        "MAC addresses can identify network hardware and, under GDPR Article 4(1), "
+        "constitute personal data when linkable to an individual (e.g. device logs, "
+        "network traffic records)."
+    ),
+}
+
+REGION_NOTES: dict[str, str] = {
+    "at": (
+        "Austrian VAT ID (UID) and Firmenbuchnummer are not currently implemented; "
+        "contributions welcome."
+    ),
+}
+
 
 def main() -> None:
     reg = get_registry()
@@ -81,8 +105,19 @@ def main() -> None:
             default = "on" if enabled else "off"
             out.write(f"| `{name}` | `{{{{{token}}}}}` | {feas} | {default} |\n")
 
+    if DETECTOR_NOTES:
+        out.write("\n## Detector notes\n\n")
+        for det_name, note in sorted(DETECTOR_NOTES.items()):
+            out.write(f"**`{det_name}`**: {note}\n\n")
+
+    if REGION_NOTES:
+        out.write("## Region notes\n\n")
+        for region, note in sorted(REGION_NOTES.items()):
+            region_name = REGION_NAMES.get(region, region.upper())
+            out.write(f"**{region_name} (`{region}`)**: {note}\n\n")
+
     out.write(
-        "\n## Notes on opt-in detectors\n\n"
+        "## Notes on opt-in detectors\n\n"
         "Phone numbers and shape-only identifiers (passports, vehicle plates, French CNI, "
         "Belgian payment references) are off by default. They either lack a strong checksum "
         "or share a shape with plenty of non-PII strings. Enable them by name:\n\n"

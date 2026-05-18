@@ -4,9 +4,9 @@ A small PII detection and redaction library for structured identifiers. It uses 
 plus checksum validation. There is no ML model, no NLP pipeline, and no large dependency tree.
 
 Use it to sanitize chatbot input before it hits an LLM, scrub logs, or redact customer
-support transcripts. Coverage includes the 7 major EU countries, the United Kingdom, the
-United States, and international identifiers like IBAN, BIC, credit cards, email, IP
-addresses, and MAC addresses.
+support transcripts. Coverage spans 24 EU member states, the United Kingdom, the United States, and
+international identifiers including IBAN, BIC, credit cards, email, IP addresses, and
+MAC addresses — 26 regions in total.
 
 ---
 
@@ -65,7 +65,7 @@ cat payload.json | piigex scan  --json    # match list with "path" field
 
 ## Coverage
 
-87 detectors across 29 regions. 71 Tier-1 identifiers are on by default. The other 16
+87 detectors across 26 regions. 71 are on by default. The other 16
 (phone numbers and low-risk shape-only IDs) are off, since they produce more false
 positives. Turn them on explicitly with `detectors=[...]` or `regions=[...]`.
 
@@ -216,5 +216,6 @@ or a spaCy-based NER pipeline. Those tools require ML models. piigex deliberatel
 
 ## Scope
 
-Structured identifiers only. No NER, no ML. EU, UK, and US country coverage. The only
-runtime dependency is `python-stdnum`.
+Structured identifiers only. No NER, no ML. EU, UK, and US country coverage. Planned
+additions include Norway (NO), Switzerland (CH), Iceland (IS), and Liechtenstein (LI).
+The only runtime dependency is `python-stdnum`.
